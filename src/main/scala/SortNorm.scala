@@ -43,7 +43,7 @@ object ArithmeticOrdering extends Ordering[SearchedWebPage] {
     def compare(a: SearchedWebPage, b: SearchedWebPage): Int = {
         val meanA = (a.weight + a.textmatch)/2
         val meanB = (b.weight + b.textmatch)/2
-        
+
         meanA compare meanB
     }
 }
@@ -53,7 +53,7 @@ object GeometricOrdering extends Ordering[SearchedWebPage] {
     def compare(a: SearchedWebPage, b: SearchedWebPage): Int = {
         val meanA = math.sqrt(a.weight*a.textmatch)
         val meanB = math.sqrt(b.weight*b.textmatch)
-        
+
         meanA compare meanB
     }
 }
