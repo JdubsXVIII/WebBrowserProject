@@ -1,5 +1,6 @@
 import scala.math
 
+
 // NOTE: This object is implemented for you and does not need to be adjusted
 object SearchedWebPageNormalize {
     /**
@@ -39,15 +40,30 @@ object NameOrdering extends Ordering[SearchedWebPage] {
 
 object ArithmeticOrdering extends Ordering[SearchedWebPage] {
     // TODO: implement an actual comparison based on Arithmetic means of weight and textmatch
-    def compare(a: SearchedWebPage, b: SearchedWebPage): Int = 0
+    def compare(a: SearchedWebPage, b: SearchedWebPage): Int = {
+        val meanA = (a.weight + a.textmatch)/2
+        val meanB = (b.weight + b.textmatch)/2
+        
+        meanA compare meanB
+    }
 }
 
 object GeometricOrdering extends Ordering[SearchedWebPage] {
     // TODO: implement an actual comparison based on Geometric means of weight and textmatch
-    def compare(a: SearchedWebPage, b: SearchedWebPage): Int = 0
+    def compare(a: SearchedWebPage, b: SearchedWebPage): Int = {
+        val meanA = math.sqrt(a.weight*a.textmatch)
+        val meanB = math.sqrt(b.weight*b.textmatch)
+        
+        meanA compare meanB
+    }
 }
 
 object HarmonicOrdering extends Ordering[SearchedWebPage] {
     // TODO: implement an actual comparison based on Harmonic means of weight and textmatch
-    def compare(a: SearchedWebPage, b: SearchedWebPage): Int = 0
+    def compare(a: SearchedWebPage, b: SearchedWebPage): Int = {
+        //2wt/(w+t)
+        val meanA = (2*a.weight*a.textmatch)/(a.weight+a.textmatch)
+        val meanB = (2*b.weight*b.textmatch)/(b.weight+b.textmatch)
+        meanA compare meanB
+    }
 }
