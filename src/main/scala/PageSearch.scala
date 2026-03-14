@@ -14,7 +14,7 @@ object PageSearch {
     }
     def subCounter(pageText: String, sumSoFar: Double, query: List[String]): Double = {
         if pageText.isEmpty then return sumSoFar
-        for(text<-query) if (pageText.substring(0, text.length).equals(text)) then return subCounter(pageText.tail, sumSoFar+1.0, query)
+        for(text<-query) if (text.length <= pageText.length) then if (pageText.substring(0, text.length).equals(text)) then return subCounter(pageText.tail, sumSoFar+1.0, query)
         subCounter(pageText.tail, sumSoFar, query)
     }
 
