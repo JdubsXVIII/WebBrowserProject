@@ -21,4 +21,5 @@ object PageRank {
     def pagerank(pages: Map[String, WebPage]): Map[String, Double] = {
         Map() // TODO: remove this stub and implement this method
     }
+    
 }
