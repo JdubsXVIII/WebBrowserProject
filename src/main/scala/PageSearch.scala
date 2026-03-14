@@ -10,10 +10,10 @@ object PageSearch {
     def count(pages: List[RankedWebPage], query: List[String]): List[Double] = {
         List() // TODO: implement this method and remove this stub
         for(page <- pages) yield subCounter(page.text, 0, query)
-            
+
     }
     def subCounter(pageText: String, sumSoFar: Double, query: List[String]): Double = {
-        if pageText == null then return sumSoFar
+        if pageText.isEmpty then return sumSoFar
         for(text<-query) if (pageText.substring(0, text.length).equals(text)) then return subCounter(pageText.tail, sumSoFar+1.0, query)
         subCounter(pageText.tail, sumSoFar, query)
     }
