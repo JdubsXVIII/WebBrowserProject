@@ -7,3 +7,4 @@ lazy val root = (project in file("."))
     name := "WebBrowserProject"
   )
 
+libraryDependencies += "org.scala-lang.modules" %% "scala-parallel-collections" % "1.2.0"
