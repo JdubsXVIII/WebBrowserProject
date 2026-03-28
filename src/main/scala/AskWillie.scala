@@ -15,11 +15,13 @@ import scala.util.Sorting
 
         // Load WebPage.id -> WebPage map to better handle graph
         val pages: Map[String, WebPage] = mapWebPages(loadWebPages()) // completed for you
-        val pageRanks: Map[String, Double] = PageRank.equal(pages)
-        val emptyPage: WebPage = WebPage("", "", "", "", Nil)
 
-        // TODO: Measure the importance of each page using one of the functions in PageRank
-        val rankedPages: List[RankedWebPage] = (for page <- pageRanks yield RankedWebPage(pages.getOrElse(page._1, emptyPage), pageRanks.getOrElse(page._1, 0.0))).toList // call PageRank.???? here
+        // Measure the importance of each page using one of the functions in PageRank
+        val pageRanks: Map[String, Double] = PageRank.indegree(pages)
+
+        val emptyPage: WebPage = WebPage("", "", "", "", List())
+
+        val rankedPages: List[RankedWebPage] = (for page <- pageRanks yield RankedWebPage(pages.getOrElse(page._1, emptyPage), pageRanks.getOrElse(page._1, 0.0))).toList
 
         // Get user input then perform search until ":quit" is entered
         var query: String = ""
@@ -32,13 +34,14 @@ import scala.util.Sorting
             // this is the last line in the expression i.e. the condition of our while loop
             terms != List(":quit")
         } do {
-          // TODO: Measure the textual match of each page to these terms using one of the functions in PageSearch
-          val searchedPages: List[SearchedWebPage] = rankedPages.map(x => SearchedWebPage(x, pageRanks.getOrElse(x.id, 0.0))) // call PageSearch.???? here
+          // Measure the textual match of each page to these terms using one of the functions in PageSearch
+          val rankedPagesTextmatches = PageSearch.count(rankedPages, terms) // call PageSearch.???? here
+          val searchedPages: List[SearchedWebPage] = (for i <- 0 until rankedPages.length yield SearchedWebPage(rankedPages(i), rankedPagesTextmatches(i))).toList
           // normalize the ranges for weight and textmatch on these pages
           val pageArray = SearchedWebPageNormalize.normalize(searchedPages).toArray
           // sort this array based on the chosen averaging scheme i.e.
           //    (ArithmeticOrdering || GeometricOrdering || HarmonicOrdering)
-          Sorting.quickSort(pageArray)(using NameOrdering) // TODO: change this from name ordering to something else!!!
+          Sorting.quickSort(pageArray)(using HarmonicOrdering)
           // Print the top ranked pages in descending order
           for p <- pageArray.reverse.slice(0, 10) do println(f"${p.name}%-15s  ${p.url}")
           // print a divider to make reading the results easier

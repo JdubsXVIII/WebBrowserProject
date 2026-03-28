@@ -25,7 +25,7 @@ object PageRank {
     def pagerank(pages: Map[String, WebPage]): Map[String, Double] = {
         val walks: List[String] = (for i <- 1 to 100000 yield walk(100, pages.keys.toList(Random.nextInt(pages.keys.size)), pages)).toList // List of all 10000 walking results
         val walksMap = walks.foldLeft(Map.empty[String, Int])((num, link) => num + (link -> (num.getOrElse(link, 0) + 1)))
-        walksMap.map((word, wordInt) => (word, wordInt.toDouble))
+        pages.map((link, page) => (link, walksMap.getOrElse(link, 0).toDouble/10100.0))
     }
 
     @tailrec
